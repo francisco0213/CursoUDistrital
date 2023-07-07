@@ -27,7 +27,7 @@
             <div><h2>Si estas interesado en mis servicios o en mis hobbies por favor diligencia el siguiente formulario:</h2></div>
 
             <div class="container">
-                <form action="action_page.php">
+                <form>
                   
                     <label for="fname">Nombres</label>
                       <input type="text" id="fname" name="firstname" placeholder="Nombre..">
@@ -41,7 +41,7 @@
                       </select>
                       <label for="subject">Comentarios</label>
                       <textarea id="subject" name="subject" placeholder="Comentario.." style="height:200px"></textarea>
-                    <input class="BotonEnviar" type="submit" value="Enviar">
+                    <input id="send_data" class="BotonEnviar" value="Enviar" type="submit"> 
                 </form>
               </div>
               <br>
@@ -61,5 +61,31 @@
             <video src="videos/HombreCorriendo.mp4" width="90%" controls loop autoplay>MP4 no soportado</video>
         </div>
     </div>
+    <script>
+        const send_button = document.getElementById
+            ("send_data");
+  
+        send_button.addEventListener('click', () => {
+            var data = new FormData();
+data.append("Nombres", document.getElementById("fname").value);
+data.append("Apellidos", document.getElementById("lname").value);
+data.append("Nacionalidad", document.getElementById("country").value);
+data.append("Comentarios", document.getElementById("subject").value);
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+  }
+});
+
+xhr.open("POST", "http://127.0.0.1:8000/api/add-contactos");
+
+xhr.send(data);
+    
+        });
+    </script>
 </body>
 </html>
